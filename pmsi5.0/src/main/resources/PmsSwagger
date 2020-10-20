@@ -1,0 +1,611 @@
+swagger: "2.0"
+info:
+  description: "This is DigiValet PMS application services for fetching room status, bill details, guest information, setting up wake up call etc."
+  version: "1.0.0"
+  title: "DigiValet PMS"
+  termsOfService: "https://digivalet.in/terms/"
+  contact:
+    email: "apisupport@digivalet.in"
+  license:
+    name: "Digivalet License v1.0"
+    url: "https://www.digivalet.com/licenses/LICENSE-1.0.html"
+host: "his.property_name.digivalet.in"
+basePath: "/dv_app_pmsi"
+tags:
+- name: "Guest Details"
+  description: "To fetch guest information of guest, to fetch bill details of guest."
+- name: "Guest Actions"
+  description: "For performing various actions on PMS"
+  
+paths:
+  /guestInformation:
+    get:
+      tags:
+        - "Guest Details"
+      summary: "Get Guest details required to show on device for a guest"
+      operationId: "Get Guest Information"
+      produces:
+      - "application/vnd.digivalet.v1+json"      
+      parameters:
+        - name: "access_token"
+          in: "header"
+          description: "Access token for client verification"
+          required: true
+          type: "string"
+        - name: "roomNumber"
+          in: "query"
+          required: true
+          description: "Room Number required to fetch bill details."
+          type: "string"
+        # - name: "guestId"
+        #   in: "query"
+        #   required: false
+        #   description: "guest id required to fetch bill details."
+        #   type: "string"
+        - name: "hotelCode"
+          in: "query"
+          required: true
+          description: "Hotel code required to fetch bill details."
+          type: "string"          
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/GuestData"
+        400:
+          description: "Bad Request"
+        204:
+            description: "Request Processed but server not returning anything"
+        404:
+          description: "Not Found"
+        401:
+          description: "Unauthorized"
+        415:
+          description: "Unsupported Media type"
+        500:
+          description: "Internal Server Error"
+
+  /billDetails:
+    get:
+      tags:
+        - "Guest Details"
+      summary: "Bill details required to show on device for a guest Id"
+      operationId: "Get Bill Details"
+      produces:
+      - "application/vnd.digivalet.v1+json"      
+      parameters:
+        - name: "access_token"
+          in: "header"
+          description: "Access token for client verification"
+          required: true
+          type: "string"
+        - name: "roomNumber"
+          in: "query"
+          required: true
+          description: "Room Number required to fetch bill details."
+          type: "string"
+        - name: "guestId"
+          in: "query"
+          required: true
+          description: "guest id required to fetch bill details."
+          type: "string"
+        - name: "hotelCode"
+          in: "query"
+          required: true
+          description: "Hotel code required to fetch bill details."
+          type: "string"          
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/ResponseData"
+        400:
+          description: "Bad Request"
+        204:
+            description: "Request Processed but server not returning anything"
+        404:
+          description: "Not Found"
+        401:
+          description: "Unauthorized"
+        415:
+          description: "Unsupported Media type"
+        500:
+          description: "Internal Server Error"
+
+  /wakeUpCall:
+    post:
+      tags:
+        - "Guest Actions"
+      summary: "Set/Reset Wake up call"
+      operationId: "Set/Reset Wake Up Call"
+      produces:
+      - "application/vnd.digivalet.v1+json"      
+      parameters:
+        - name: "access_token"
+          in: "header"
+          description: "Access token for client verification"
+          required: true
+          type: "string"
+        - name: "hotelCode"
+          in: "query"
+          required: true
+          description: "Hotel Code for which wake up call needs to be set"
+          type: "string"      
+        - name: "roomNumber"
+          in: "query"
+          required: true
+          description: "Room Number for which wake up call needs to be set"
+          type: "string"
+        - name: "wakeUpTime"
+          in: "query"
+          required: true
+          description: "Wake Up time which is required to be set for a Room number"
+          type: "string"   
+        - name: "wakeUpDate"
+          in: "query"
+          required: true
+          description: "Wake Up date which is required to be set for a Room number"
+          type: "string"   
+        - name: "operation"
+          in: "query"
+          required: true
+          description: "Required operation to whether to Set/Reset the alarm"
+          type: "boolean"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/ResponseData"
+        400:
+          description: "Bad Request"
+        204:
+            description: "Request Processed but server not returning anything"
+        404:
+          description: "Not Found"
+        401:
+          description: "Unauthorized"
+        415:
+          description: "Unsupported Media type"
+        500:
+          description: "Internal Server Error"
+
+  /service:
+    post:
+      tags:
+        - "Guest Actions"
+      summary: "Post service on/off at PMS"
+      operationId: "Set Service State"
+      produces:
+      - "application/vnd.digivalet.v1+json"      
+      parameters:
+        - name: "access_token"
+          in: "header"
+          description: "Access token for client verification"
+          required: true
+          type: "string"
+        - name: "hotelCode"
+          in: "query"
+          required: true
+          description: "Hotel Code for which service needs to set on/off"
+          type: "string"      
+        - name: "roomNumber"
+          in: "query"
+          required: true
+          description: "Room Number for which service needs to set on/off"
+          type: "string"
+        - name: "serviceName"
+          in: "query"
+          required: true
+          description: "Service Name to set on/off"
+          type: "string"
+          enum:
+            - "DND"
+            - "MMR"
+          default: ""
+        - name: "operation"
+          in: "query"
+          required: true
+          description: "Required operation to whether to post service on/off"
+          type: "boolean"
+          default: "false"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/ResponseData"
+        400:
+          description: "Bad Request"
+        204:
+            description: "Request Processed but server not returning anything"
+        404:
+          description: "Not Found"
+        401:
+          description: "Unauthorized"
+        415:
+          description: "Unsupported Media type"
+        500:
+          description: "Internal Server Error"
+
+  /checkout:
+    post:
+      tags:
+        - "Guest Actions"
+      summary: "Check Out"
+      operationId: "Check Out"
+      produces:
+      - "application/vnd.digivalet.v1+json"      
+      parameters:
+        - name: "access_token"
+          in: "header"
+          description: "Access token for client verification"
+          required: true
+          type: "string"
+        - name: "hotelCode"
+          in: "query"
+          required: true
+          description: "Hotel Code for which check out request is initiated"
+          type: "string"      
+        - name: "roomNumber"
+          in: "query"
+          required: true
+          description: "Room Number for which check out request is initiated"
+          type: "string"
+        - name: "guestId"
+          in: "query"
+          required: true
+          description: "Guest Id for which check out request is initiated."
+          type: "string"
+        
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/ResponseData"
+        400:
+          description: "Bad Request"
+        204:
+            description: "Request Processed but server not returning anything"
+        404:
+          description: "Not Found"
+        401:
+          description: "Unauthorized"
+        415:
+          description: "Unsupported Media type"
+        500:
+          description: "Internal Server Error"
+
+  /synchronize:
+    post:
+      tags:
+        - "PMS Actions"
+      summary: "Synchronize with PMS"
+      operationId: "synchronize"
+      produces:
+      - "application/vnd.digivalet.v1+json"      
+      parameters:
+        - name: "access_token"
+          in: "header"
+          description: "Access token for client verification"
+          required: true
+          type: "string"
+        - name: "hotelCode"
+          in: "query"
+          required: true
+          description: "Hotel Code for which check out request is initiated"
+          type: "string"      
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/ResponseData"
+        400:
+          description: "Bad Request"
+        204:
+            description: "Request Processed but server not returning anything"
+        404:
+          description: "Not Found"
+        401:
+          description: "Unauthorized"
+        415:
+          description: "Unsupported Media type"
+        500:
+          description: "Internal Server Error"
+
+
+  /shutdown:
+    post:
+      tags:
+        - "PMS Actions"
+      summary: "Shutdown PMS"
+      operationId: "shutdown"
+      produces:
+      - "application/vnd.digivalet.v1+json"      
+      parameters:
+        - name: "access_token"
+          in: "header"
+          description: "Access token for client verification"
+          required: true
+          type: "string"
+        - name: "hotelCode"
+          in: "query"
+          required: true
+          description: "Hotel Code for which check out request is initiated"
+          type: "string"      
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/ResponseData"
+        400:
+          description: "Bad Request"
+        204:
+            description: "Request Processed but server not returning anything"
+        404:
+          description: "Not Found"
+        401:
+          description: "Unauthorized"
+        415:
+          description: "Unsupported Media type"
+        500:
+          description: "Internal Server Error"
+  /checkinCheckout:
+    post:
+      tags:
+        - Checkin Checkout Guest
+      summary: This service is used to Checkin/Checkout guest in Digivalet
+      operationId: CheckinCheckout
+      consumes:
+        - application/vnd.digivalet.v1+json
+      produces:
+        - application/vnd.digivalet.v1+json
+      parameters:
+        - name: Access-Token
+          in: header
+          description: Access token for client verification
+          required: true
+          type: string
+        - name: "hotelCode"
+          in: "query"
+          required: true
+          description: "Hotel Code for which check out request is initiated"
+          type: "string"    
+        - name: "roomNumber"
+          in: "query"
+          required: true
+          description: "Room Number for which check out request is initiated"
+          type: "string"
+        - name: body
+          in: body
+          description: Guest Details
+          required: true
+          schema:
+            $ref: '#/definitions/CheckinCheckoutDetails'
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/ResponseData'
+        '204':
+          description: Request Processed but server not returning anything
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+        '415':
+          description: Unsupported Media type
+        '500':
+          description: Internal Server Error
+
+  /postMovie:
+    post:
+      tags:
+        - "Movie Posting"
+      summary: "Post Movie to PMS"
+      operationId: "postMovie"
+      produces:
+      - "application/vnd.digivalet.v1+json"      
+      parameters:
+        - name: "access_token"
+          in: "header"
+          description: "Access token for client verification"
+          required: true
+          type: "string"
+        - name: "hotelCode"
+          in: "query"
+          required: true
+          description: "Hotel Code for which check out request is initiated"
+          type: "string"    
+        - name: "roomNumber"
+          in: "query"
+          required: true
+          description: "Room Number for which check out request is initiated"
+          type: "string"
+        - name: "guestId"
+          in: "query"
+          required: true
+          description: "Guest Id for which check out request is initiated."
+          type: "string"
+        - name: "data"
+          in: "body"
+          description: "Details of movie for posting"
+          required: true
+          schema:
+            $ref: "#/definitions/MovieDetails"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/ResponseData"
+        400:
+          description: "Bad Request"
+        204:
+            description: "Request Processed but server not returning anything"
+        404:
+          description: "Not Found"
+        401:
+          description: "Unauthorized"
+        415:
+          description: "Unsupported Media type"
+        500:
+          description: "Internal Server Error"
+
+
+
+securityDefinitions:
+  pmsi_auth:
+    type: "oauth2"
+    authorizationUrl: "https://www.digivalet.com/services/oauth"
+    flow: "implicit"
+    scopes:
+      write:service: "Post data to PMS"
+      read:service: "Get data from PMS"
+  api_key:
+    type: "apiKey"
+    name: "api_key"
+    in: "header"
+    
+definitions:
+  ResponseData:
+    type: "object"
+    properties:
+      status:
+        type: "boolean"
+        default: false
+      message:
+        type: "string"
+      data:
+        type: "array"
+        items:
+         $ref: "#/definitions/successResponse"
+      response_tag:
+        type: "integer"
+        format: "int64"
+  successResponse:
+    type: "object"
+    properties:
+      success:
+        type: "boolean"
+        default: false        
+
+  GuestData:
+    type: "object"
+    properties:
+      status:
+        type: "boolean"
+        default: false
+      message:
+        type: "string"
+      data:
+        type: "array"
+        items:
+         $ref: "#/definitions/GuestDetails"
+      response_tag:
+        type: "integer"
+        format: "int64"
+  
+  MovieDetails:
+    type: "object"
+    properties:
+      details:
+        type: "array"
+        items:
+          $ref: "#/definitions/MovieData"
+      dvcId:
+        type: "string"
+      inRoomDeviceId:
+        type: "string"
+
+  
+  MovieData:
+    type: "object"
+    properties:
+      movieName:
+        type: "string"
+      startTime:
+        type: "string"
+      endTime:
+        type: "string"
+      seekPercent:
+        type: "string"
+      audioId:
+        type: "string"
+      subtitleId:
+        type: "string"
+      duration:
+        type: "string"
+      dimention:
+        type: "string"
+      alignment:
+        type: "string"
+
+
+  CheckinCheckoutDetails:
+    type: "object"
+    properties:
+      guestDetails:
+        type: "array"
+        items:
+          $ref: "#/definitions/GuestDetails"
+      operation:
+        type: "string"
+      feature:
+        type: "string"
+
+      
+  GuestDetails: 
+    type: "object"
+    properties:
+      guestName:
+        type: "string"
+      guestTitle:
+        type: "string"
+      guestFirstName:
+        type: "string"
+      guestLastName:
+        type: "string"
+      guestFullName:
+        type: "string"
+      roomNumber:
+        type: "string"
+      remoteCheckout:
+        type: "boolean"
+      safeFlag:
+        type: "boolean"
+      revisitFlag:
+        type: "boolean"
+      tvRights:
+        type: "string"
+      videoRights:
+        type: "string"
+      vipStatus:
+        type: "string"
+      alternateName:
+        type: "string"
+      incognitoName:
+        type: "string"
+      arrivalDate:
+        type: "string"
+      departureDate:
+        type: "string"
+      guestLanguage:
+        type: "string"
+      guestId:
+        type: "integer"
+      reservationId:
+        type: "string"
+      emailId:
+        type: "string"
+      phoneNumber:
+        type: "string"
+      groupCode:
+        type: "string"
+      uniqueId:
+        type: "string"
+      guestType:
+        type: "string"
+    
+externalDocs:
+  description: "Find out more about DigiValet"
+  url: "https://digivalet.in"      

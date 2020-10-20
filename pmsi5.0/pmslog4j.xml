@@ -1,0 +1,70 @@
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+    <appender class="org.apache.log4j.DailyRollingFileAppender" name="analytics">
+        <param name="DatePattern" value="'.'yyyy-MM-dd-a'.log'"/>
+        <param name="File" value="/var/log/dvc/package/logs/pmsAnalytics.log"/>
+        <param name="ImmediateFlush" value="true"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="{&quot;level&quot;:&quot;%-5p&quot;,&quot;time&quot;:&quot;%d{ISO8601}&quot;,&quot;thread&quot;:&quot;%-25t&quot;,&quot;log&quot;:  %m}%n"/>
+        </layout>
+<!--
+        <filter class="org.apache.log4j.varia.LevelRangeFilter">
+            <param name="LevelMin" value="analytics"/>
+            <param name="LevelMax" value="analytics"/>
+        </filter>
+-->
+    </appender>
+    <appender class="org.apache.log4j.DailyRollingFileAppender" name="decLog">
+        <param name="DatePattern" value="'.'yyyy-MM-dd-a'.log'"/>
+        <param name="File" value="/var/log/dvc/package/logs/pmssocketlog4j.out"/>
+        <param name="ImmediateFlush" value="true"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%-5p | %d | [%t] | %m%n"/>
+        </layout>
+    </appender>
+    <!-- **************  The stdout prints all logs that have a level less than or equal to INFO  *************-->
+
+    <appender class="org.apache.log4j.ConsoleAppender" name="stdout">
+        <param name="threshold" value="debug"/>
+        <param name="target" value="System.out"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%-5p %d [%t][%F:%C{2}:%L] : %m%n"/>
+        </layout>
+        <filter class="org.apache.log4j.varia.LevelRangeFilter">
+            <param name="LevelMin" value="ALL"/>
+            <param name="LevelMax" value="ALL"/>
+        </filter>
+    </appender>
+
+    <!--	<appender name="stdout" class="org.apache.log4j.ConsoleAppender">		<layout class="org.apache.log4j.PatternLayout">			<param name="ConversionPattern" value="%-5p | %d | [%t] | %m%n" />		</layout>	</appender>-->
+    <!-- **************  The stderr prints all logs with level greater than INFO to stderr. ************* -->
+    <appender class="org.apache.log4j.ConsoleAppender" name="stderr">
+        <param name="threshold" value="error"/>
+        <param name="target" value="System.err"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%-5p %d [%t][%F:%C{2}:%L] : %m%n"/>
+        </layout>
+    </appender>
+    <!-- Below should be used when need to disable http 4.3 -->
+    <!--     <logger name="org.apache.commons.httpclient">        <level value="warn"/>    </logger>-->
+    <logger name="org.apache.http">
+        <level value="warn"/>
+    </logger>
+
+    <logger additivity="false" name="DVAnalyticsLogger">
+        <level value="ALL"/>
+        <appender-ref ref="analytics"/>
+    </logger>
+    <logger additivity="false" name="DVDecryptLogger">
+        <level value="ALL"/>
+        <appender-ref ref="decLog"/>
+    </logger>
+
+    <root>
+        <level value="ALL"/>
+        <appender-ref ref="decLog"/> 
+        <appender-ref ref="stderr"/>
+        <appender-ref ref="analytics"/>
+    </root>
+</log4j:configuration>
+
+

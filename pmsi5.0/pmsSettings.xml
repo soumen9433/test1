@@ -1,0 +1,17 @@
+<settings>
+<logfilepath>/digivalet/pkg/config/pmslog4j.xml</logfilepath>
+<isencryptedlogger>false</isencryptedlogger>
+
+<databaseIp>mds</databaseIp>
+<databaseUserName>DB_PMSI_USER</databaseUserName>
+<databasePassword>DB_PMSI_PASS</databasePassword>
+<databaseName>digivalet</databaseName>
+<databasePort>DB_PORT</databasePort>
+
+<movieDatabaseIp>mds</movieDatabaseIp> 
+<movieDatabaseUserName>DB_PMSI_USER</movieDatabaseUserName> 
+<movieDatabasePassword>DB_PMSI_PASS</movieDatabasePassword> 
+<movieDatabaseName>mymovie</movieDatabaseName> 
+<movieDatabasePort>DB_PORT</movieDatabasePort>
+
+</settings>

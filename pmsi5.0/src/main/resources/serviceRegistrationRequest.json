@@ -1,0 +1,30 @@
+{
+  "details": {
+    "featureName": "Property Management System Interface",
+    "featureCode": "PMSI",
+    "eventData": [
+      {
+        "eventCode": "CHECKIN_SUCCESS",
+        "eventName": "Check-In Success"
+      },
+      {
+        "eventCode": "CHECKIN_FAILED",
+        "eventName": "Check-In Failed"
+      },
+      {
+        "eventCode": "CHECKOUT_SUCCESS",
+        "eventName": "Check-Out Success"
+      },
+      {
+        "eventCode": "CHECKOUT_FAILED",
+        "eventName": "Check-Out Failed"
+      },
+      {
+        "eventCode": "GUEST_INFORMATION_UPDATE_SUCCESS",
+        "eventName": "Guest Information Update Success"
+      }
+    ]    
+  },
+  "operation": "serviceRegistration",
+  "feature": "Event"
+}
