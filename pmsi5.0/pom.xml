@@ -34,15 +34,15 @@
 		</repository> </repositories> -->
 
 
-	<repositories>
+	<!-- <repositories>
 		<repository>
 			<id>digivalet-global-repo</id>
 			<name>DigiValet Maven Repository</name>
 			<url>http://192.168.0.99:8081/artifactory/digivalet-repo/</url>
 		</repository>
-	</repositories>
+	</repositories> -->
 
-	<distributionManagement>
+	<!-- <distributionManagement>
 		<repository>
 			<id>digivalet-global-repo</id>
 			<name>DigiValet Artifactory</name>
@@ -54,7 +54,7 @@
 			<url>http://192.168.0.99:8081/artifactory/libs-snapshot-local/</url>
 			<uniqueVersion>false</uniqueVersion>
 		</snapshotRepository>
-	</distributionManagement>
+	</distributionManagement> -->
 
 
 
